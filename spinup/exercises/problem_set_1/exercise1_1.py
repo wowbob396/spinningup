@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-
+import math
 """
 
 Exercise 1.1: Diagonal Gaussian Likelihood
@@ -12,6 +12,9 @@ distributions, and returns a Tensorflow symbol for computing the log
 likelihoods of those samples.
 
 """
+
+def calculate_error():
+    pass
 
 def gaussian_likelihood(x, mu, log_std):
     """
@@ -28,7 +31,14 @@ def gaussian_likelihood(x, mu, log_std):
     #   YOUR CODE HERE    #
     #                     #
     #######################
-    return tf.constant(0)
+    batch = x.shape[0].value
+    dim = x.shape[1].value
+
+
+    log_likelihood = -(1/2)*((tf.math.pow(x-mu,2)/tf.math.pow(tf.exp(log_std),2))+(2*log_std)+np.log(2 * np.pi))
+    print(log_likelihood)
+
+    return tf.reduce_sum(log_likelihood,1)
 
 
 if __name__ == '__main__':
@@ -47,6 +57,7 @@ if __name__ == '__main__':
 
     your_gaussian_likelihood = gaussian_likelihood(x, mu, log_std)
     true_gaussian_likelihood = exercise1_1_soln.gaussian_likelihood(x, mu, log_std)
+
 
     batch_size = 32
     feed_dict = {x: np.random.rand(batch_size, dim),
